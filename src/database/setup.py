@@ -1,8 +1,7 @@
-from session import db_session
+from src.models.base import Base
 
-from models.base import Base
+from .session import engine
 
 
 def setup_database():
-    Base.metadata.create_all(db_session.engine)
-    return db_session
+    Base.metadata.create_all(engine)
