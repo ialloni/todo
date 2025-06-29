@@ -1,5 +1,3 @@
-import datetime
-
 from src.database.session import session_factory
 from src.database.setup import setup_database
 from src.models.task import Task
