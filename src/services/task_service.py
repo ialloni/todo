@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional, Sequence, Union
+from typing import Sequence, Union
 
 from src.models.task import Task
 from src.repositories.task_repository import TaskRepository
