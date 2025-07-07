@@ -12,9 +12,8 @@ class TaskRepository(BaseRepository[Task]):
     def __init__(self, session: Session) -> None:
         super().__init__(session, Task)
 
-    def update_status(self, oid: int) -> Task:
-        res = self.update_by_id(oid, {"status": "completed"})
-        return res
+    def update_status(self, oid: int) -> None:
+        self.update_by_id(oid, {"status": "completed"})
 
     def completed_list(self) -> Sequence[Task]:
         stmt = select(Task).filter_by(status="completed")

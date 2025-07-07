@@ -31,7 +31,6 @@ class BaseRepository(Generic[T]):
         stmt = delete(self.model).filter_by(oid=oid)
         self.session.execute(stmt)
 
-    def update_by_id(self, oid: int, values: dict) -> T:
+    def update_by_id(self, oid: int, values: dict) -> None:
         stmt = update(self.model).filter_by(oid=oid).values(values)
-        res = self.session.execute(stmt)
-        return res.scalar_one()
+        self.session.execute(stmt)
