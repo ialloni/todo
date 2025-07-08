@@ -1,5 +1,4 @@
 import time
-from sys import exit
 
 from rich import print
 from rich.progress import track
@@ -9,6 +8,7 @@ from src.cli.commands import CommandsCLI
 from src.database.session import session_factory
 from src.repositories.task_repository import TaskRepository
 from src.services.task_service import TaskService
+from src.tasks.celery import Scheduler
 
 
 class TodoCLI(CommandsCLI):
@@ -46,8 +46,10 @@ class TodoCLI(CommandsCLI):
             if handler is None:
                 print("Неправильный выбор")
                 continue
+            scheduler = Scheduler()
 
             with session_factory.begin() as session:
                 task_repo = TaskRepository(session)
-                task_service = TaskService(task_repo)
+                task_service = TaskService(task_repo, scheduler)
                 handler(task_service)
+            scheduler.commit()

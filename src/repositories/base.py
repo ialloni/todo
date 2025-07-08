@@ -13,9 +13,10 @@ class BaseRepository(Generic[T]):
         self.session = session
         self.model = model
 
-    def create(self, values: dict) -> None:
-        stmt = insert(self.model).values(values)
-        self.session.execute(stmt)
+    def create(self, values: dict) -> T:
+        stmt = insert(self.model).values(values).returning(self.model)
+        res = self.session.execute(stmt)
+        return res.scalar_one()
 
     def list(self) -> Sequence[T]:
         stmt = select(self.model)
